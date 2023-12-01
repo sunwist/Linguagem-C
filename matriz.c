@@ -3,6 +3,8 @@
 #include <ctype.h>
 #include <string.h>
 
+// diagonal principal
+
 int main(){
     
     int i, j, matriz[3][3], diagonal[2];
