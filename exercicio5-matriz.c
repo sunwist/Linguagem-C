@@ -11,7 +11,7 @@
 
 int main()
 {
-  int i, j, vendas[12][4], soma = 0, vt_mes[2] = {0}, vt_semana[4] = {0}, venda_total = 0;
+  int i, j, vendas[12][4], soma = 0, vt_mes[12] = {0}, vt_semana[4] = {0}, venda_total = 0;
   char meses[12][20];
 
   strcpy(meses[0], "Janeiro");

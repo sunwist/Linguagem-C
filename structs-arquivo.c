@@ -3,19 +3,17 @@
 #include <string.h>
 #include <ctype.h>
 
-
 // NAO CONCLUIDO
 
 typedef struct dados
 {
     char nome[20];
-    char sobrenome [20];
-    char depto [15];
+    char sobrenome[20];
+    char depto[15];
     float salario;
     int idade;
     int telefone;
 } CLIENTE;
-
 
 void relatorio()
 {
@@ -23,46 +21,45 @@ void relatorio()
 
     CLIENTE fatec;
 
-    fptr=fopen("ARQUIVO","rb");
+    fptr = fopen("ARQUIVO", "rb"); // arquivo para leitura que deve existir
 
-    if(fptr == NULL)
+    if (fptr == NULL)
     {
         printf("\n Problemas com Abertura do Arquivo");
         system("pause");
-
     }
-    else{
-
-            system("cls");
-            printf("\n ***********************************************");
-            printf("\n ********* RELATORIO DE DADOS  *****************");
-            printf("\n ********** FATEC AMERICANA ********************");
-            printf("\n ***********************************************");
-            printf("\n Nome \t Sobrenome \t Depto \t Salario \t idade \t Telefone");
-
-            while(fread(&fatec,sizeof(fatec),1,fptr))
-            {
-            }
-}
-
-
-void Alterar()
-{
-    char xsobrenome[20];
-    int c;
-    FILE *fptr;
-
-    CLIENTE fatec;
-
-    fptr=fopen("ARQUIVO","rb+");
-
-    if(fptr == NULL)
+    else
     {
-        printf("\n Problemas com Abertura do Arquivo");
-        system("pause");
 
+        system("cls");
+        printf("\n ***********************************************");
+        printf("\n ********* RELATORIO DE DADOS  *****************");
+        printf("\n ********** FATEC AMERICANA ********************");
+        printf("\n ***********************************************");
+        printf("\n Nome \t Sobrenome \t Depto \t Salario \t idade \t Telefone");
+
+        while (fread(&fatec, sizeof(fatec), 1, fptr))
+        {
+        }
     }
-    else{
+
+    void Alterar()
+    {
+        char xsobrenome[20];
+        int c;
+        FILE *fptr;
+
+        CLIENTE fatec;
+
+        fptr = fopen("ARQUIVO", "r+b"); // arquivo para escrita e leitura que deve existir -> alteracao
+
+        if (fptr == NULL)
+        {
+            printf("\n Problemas com Abertura do Arquivo");
+            system("pause");
+        }
+        else
+        {
 
             system("cls");
             printf("\n ***********************************************");
@@ -70,105 +67,110 @@ void Alterar()
             printf("\n ********** FATEC AMERICANA ********************");
             printf("\n ***********************************************");
 
+            c = 0;
+            fflush(stdin);
+            printf("\n Informe o Sobrenome do Cliente");
+            gets(xsobrenome);
+            
+            // posicionamento do ponteiro no comeco do arquivo pra leitura
+            // variavel que recebe os dados, tamanho de cada registro, numero de registros, apontador para a estrutura do arquivo
+            fread(&fatec, sizeof(fatec), 1, fptr);
 
-       c=0;
-       fflush(stdin);
-       printf("\n Informe o Sobrenome do Cliente");
-       gets(xsobrenome);
-
-       fread(&fatec,sizeof(fatec),1,fptr);
-
-       while(!feof(fptr) && strcmp(xsobrenome,fatec.sobrenome)!=0)
-       {
-              fread(&fatec,sizeof(fatec),1,fptr);
-              c++;
-       }
-
-        if(feof(fptr))
-        {
-            printf("\n Registro n�o consta no Arquivo");
-            printf("\n\n");
-            system("pause");
-        }else {
-
-            fseek(fptr,c*sizeof(fatec),SEEK_SET);
-
-            printf("\n Nome......: %s Digite o nome \n",fatec.nome);
-            gets(fatec.nome);
-
-            printf("\n Sobrenome : %s ",fatec.sobrenome);
-            printf("\n Depto ....: %s   Digite o Depto \n ", fatec.depto);
-            gets(fatec.depto);
-
-            printf("\n Salario ..: %2.f  Digite o Salario \n",fatec.salario);
-            scanf("%f",&fatec.salario);
-
-            printf("\n Idade ....: %d  Digite a Idade \n", fatec.idade);
-            scanf("%d",&fatec.idade);
-
-            printf("\n Telefone..: %d Digite o Telefone \n",fatec.telefone);
-            scanf("%d",&fatec.telefone);
-
-            fwrite(&fatec,sizeof(fatec),1,fptr);
+            // feof == NULL
+            // se o arquivo e diferente de null o nome digitado
+            // e o sobrenome armazenado sao diferentes
+            while (!feof(fptr) && strcmp(xsobrenome, fatec.sobrenome) != 0)
+            {
+                // contagem dos registros que nao sao o sobrenome
+                fread(&fatec, sizeof(fatec), 1, fptr);
+                c++;
             }
-     }
-          fclose(fptr);
-          }
 
-void Pesquisa()
-{
-    char numstr[15];
-    int achou;
-    int c;
+            if (feof(fptr))
+            {
+                // ponteiro chegou no final do arquivo
+                printf("\n Registro nao consta no Arquivo");
+                printf("\n\n");
+                system("pause");
+            }
+            else
+            {
+                // senao deslocamento do cursor para inicio do arquivo
+                fseek(fptr, c * sizeof(fatec), SEEK_SET);
 
-    FILE *fptr;
+                printf("\n Nome......: %s Digite o nome \n", fatec.nome);
+                gets(fatec.nome);
 
-    CLIENTE fatec;
+                printf("\n Sobrenome : %s ", fatec.sobrenome);
+                printf("\n Depto ....: %s   Digite o Depto \n ", fatec.depto);
+                gets(fatec.depto);
 
-    fptr=fopen("ARQUIVO","rb");
+                printf("\n Salario ..: %2.f  Digite o Salario \n", fatec.salario);
+                scanf("%f", &fatec.salario);
 
-    if(fptr == NULL)
-    {
-        printf("\n Problemas com Abertura do Arquivo");
-        system("pause");
+                printf("\n Idade ....: %d  Digite a Idade \n", fatec.idade);
+                scanf("%d", &fatec.idade);
 
+                printf("\n Telefone..: %d Digite o Telefone \n", fatec.telefone);
+                scanf("%d", &fatec.telefone);
+
+                fwrite(&fatec, sizeof(fatec), 1, fptr);
+            }
+        }
+        fclose(fptr);
     }
-    else
-    {system("cls");
+
+    void Pesquisa()
+    {
+        char numstr[15];
+        int achou;
+        int c;
+
+        FILE *fptr;
+
+        CLIENTE fatec;
+
+        fptr = fopen("ARQUIVO", "rb"); // arquivo para leitura que deve existir
+
+        if (fptr == NULL)
+        {
+            printf("\n Problemas com Abertura do Arquivo");
+            system("pause");
+        }
+        else
+        {
+            system("cls");
 
             printf("\n ***********************************************");
             printf("\n ************** PESQUISA PELO SOBRENOME*********");
             printf("\n ********** FATEC AMERICANA ********************");
             printf("\n ***********************************************");
 
-        fflush(stdin);
-        printf("\n Informe o Sobrenome a ser Pesquisado");
-        gets(numstr);
-        fflush(stdin);
-        achou =0;
-        c=0;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
-        ......:%d",fatec.idade);
-                printf("\n Telefone ...:%d",fatec.telefone);
+            fflush(stdin);
+            printf("\n Informe o Sobrenome a ser Pesquisado");
+            gets(numstr);
+            fflush(stdin);
+            if (strcmp(numstr, fatec.sobrenome) == 0)
+            {
+                achou = 1;
+                printf("\n Nome ...... :%s", fatec.nome);
+                printf("\nIdade....... : %d", fatec.idade);
+                printf("\n Telefone ...:%d", fatec.telefone);
                 printf("\n\n");
-                system("pause");
-                achou =1;
-                break;
-
+                achou = 1;
             }
+            
         }
 
-        if(achou == 0)
+        if (achou == 0)
         {
-            printf("\n Registro n�o encontrado no sistema");
+            printf("\n Registro nao encontrado no sistema");
             printf("\n\n");
             system("pause");
-
         }
     }
     fclose(fptr);
-
-
-}'
+}
 
 void Insere()
 {
@@ -179,13 +181,12 @@ void Insere()
 
     CLIENTE fatec;
 
-    fptr=fopen("ARQUIVO","ab");
+    fptr = fopen("ARQUIVO", "ab"); // cria um arquivo para insercao de dados
 
-    if(fptr == NULL)
+    if (fptr == NULL)
     {
         printf("\n Problemas com Abertura do Arquivo");
         system("pause");
-
     }
     else
     {
@@ -223,24 +224,21 @@ void Insere()
             fatec.idade = atoi(numstr);
             fflush(stdin);
 
-
             printf("\n Informe o Celular do Cliente");
             gets(numstr);
             fatec.telefone = atoi(numstr);
             fflush(stdin);
 
-            fwrite(&fatec,sizeof(fatec),1,fptr);
+            fwrite(&fatec, sizeof(fatec), 1, fptr);
 
             printf("\n Deseja continuar o cadastro [S]im ou [N]�o");
             resp = getchar();
 
             resp = toupper(resp);
-        }
-        while (resp == 'S');
+        } while (resp == 'S');
     }
     fclose(fptr);
 }
-
 
 int main()
 {
@@ -258,7 +256,7 @@ int main()
         printf("\n *********************************");
 
         printf("\n Escolha a opcao ");
-        scanf("%d",&op);
+        scanf("%d", &op);
 
         switch (op)
         {
@@ -269,20 +267,19 @@ int main()
             Pesquisa();
             break;
         case 3:
-              Alterar();
-              break;
+            Alterar();
+            break;
         case 4:
             relatorio
-            system("pause");
+                system("pause");
         case 5:
             printf("\n Funcao a ser Desenvolvida ");
             system("pause");
         case 6:
             exit(0);
-        default :
+        default:
             printf("\n Opcao Invalida.. tente novamente");
             system("pause");
         }
-    }
-    while (op != 6);
+    } while (op != 6);
 }

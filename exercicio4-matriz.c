@@ -35,6 +35,7 @@ int main()
       {
         media[i] = soma / 5;
         soma = 0;
+        
       }
     }
   }

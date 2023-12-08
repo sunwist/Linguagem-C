@@ -38,7 +38,7 @@ void cadastro()
   {
     printf("\nBanda %d", i + 1);
     printf("\nNome: ");
-    scanf(" %s", &b[i].nome);
+    scanf(" %s", b[i].nome);
     fflush(stdin);
     printf("Estilo Musical: ");
     scanf(" %s", &b[i].estiloMusical);
@@ -121,8 +121,10 @@ int main()
 {
   int op;
   char resp;
-
-  printf("\n------ Bandas de Música");
+  
+  printf("\n------------------------------");
+  printf("\n------ Bandas de Música ------");
+  printf("\n------------------------------");
 
   while (resp != 'N')
   {
@@ -148,7 +150,7 @@ int main()
     }
 
     printf("\n\nDeseja continuar no sistema...... [S] ou [N] ");
-    scanf(" %c", &resp);
+    resp=getchar();
     fflush(stdin);
     resp = toupper(resp);
   }
